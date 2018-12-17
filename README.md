@@ -11,7 +11,7 @@ POST and GET movies route
 {
   "name": "",
   "imdb-id": "",
-  "notes": ""
+  "note": ""
 }
 ```
 
