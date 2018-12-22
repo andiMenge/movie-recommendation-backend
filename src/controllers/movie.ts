@@ -8,12 +8,12 @@ const Movie = mongoose.model('Movie', MovieSchema);
 const tmdbUrl = 'https://api.themoviedb.org/3/'
 const tmdbEndpoint = 'find'
 const tmdbApiKey = process.env.TMDB_API_KEY
-const imdbURL = 'https://www.imdb.com/title/tt2274648/'
 
 export class MovieController {
 
   public async createMovie (req: Request, res: Response) {
-    //const imdbURL = req.body
+    const body = req.body
+    const imdbURL = body.url
     const movieDetails = await this.getMovieDetails(this.getImdbIDfromImdbURL(imdbURL))
     res.json(movieDetails)
     // let newMovie = new Movie(req.body);
