@@ -1,5 +1,10 @@
 # Movie Recommendations
 
+## ToDo
+
+- correct timestamp for created_date in DB
+- how can I use types with mongoose db object save() method
+
 ## Architecture
 
 ### Backend
