@@ -17,8 +17,8 @@ interface inputData {
 export class MovieController {
 
   public async createMovie (req: Request, res: Response) {
-    const body: inputData = req.body
-    const imdbURL = body.url
+    const inputData: inputData = req.body
+    const imdbURL = inputData.url
     const movieDetails = await this.getMovieDetails(this.getImdbIDfromImdbURL(imdbURL))
     res.json(movieDetails)
     // let newMovie = new Movie(req.body);
