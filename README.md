@@ -1,20 +1,41 @@
 # Movie Recommendations
 
+## ToDo
+
+- correct timestamp for created_date in DB
+
 ## Architecture
 
 ### Backend
 
-node.js backend with sqlite
+node.js backend with mongodb
 POST and GET movies route
 
 ``` json
 {
-  "name": "",
-  "imdb-id": "",
-  "note": ""
+  "movies": [
+    {
+      "original_name": "",
+      "imdb-id": "",
+      "note": "",
+      "release_date": "",
+      "recommended_date": "",
+      "is_highlight": ""
+    }
+  ]
 }
 ```
 
 ### Frontend
 
-parses all infos from OMDB based on imdb-id
+parses all infos from TMDB based on imdb-id
+
+[TMDB](https://github.com/cavestri/themoviedb-javascript-library/wiki)
+
+[tmpl](https://startbootstrap.com/template-overviews/thumbnail-gallery/)
+
+press thumbnail to copy imdb link to clipboard
+
+RSS Feeds
+
+IFTTT to create new movies
