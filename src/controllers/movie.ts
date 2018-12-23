@@ -1,10 +1,10 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema } from '../models/movie';
+import { MovieSchema, MovieModel, Movie } from '../models/movie';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
 import { tmdbFindMovieResponse, Movieresult } from '../models/tmdb';
 
-const Movie = mongoose.model('Movie', MovieSchema);
+const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
 const tmdbUrl = 'https://api.themoviedb.org/3/'
 const tmdbEndpoint = 'find'
 const tmdbApiKey = process.env.TMDB_API_KEY
@@ -21,20 +21,18 @@ export class MovieController {
     const imdbURL = inputData.url
     const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(this.getImdbIDfromImdbURL(imdbURL))
     const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
-    const movie = this.constructMovie(tmdbMovieDetails, imdbURL)
-    console.log(movie)
-    // res.sendStatus(200)
+    const newMovie = this.constructMovie(tmdbMovieDetails, imdbURL)
 
-    movie.save((err, movie) => {
+    newMovie.save((err, movie) => {
       if(err){
-          res.send(err);
+        res.send(err);
       }    
       res.json(movie);
     });
   }
 
   public getMovies (req: Request, res: Response) {           
-    Movie.find({}, (err, contact) => {
+    movie.find({}, (err, contact) => {
       if(err){
         res.send(err);
       }
@@ -58,14 +56,14 @@ export class MovieController {
   }
 
   private constructMovie(tmdbMovieDetails: Movieresult, imdbURL: string) {
-    const movie = new Movie();
+    const newMovie = new movie();
     try {
-      movie.original_title = tmdbMovieDetails.original_title
-      movie.image_url = `${tmdbThumbnailURL}${tmdbMovieDetails.poster_path}`
-      movie.is_highlight = false
-      movie.imdb_id = imdbURL
-      movie.release_date = tmdbMovieDetails.release_date
-      return movie
+      newMovie.original_title = tmdbMovieDetails.original_title
+      newMovie.image_url = `${tmdbThumbnailURL}${tmdbMovieDetails.poster_path}`
+      newMovie.is_highlight = false
+      newMovie.imdb_id = imdbURL
+      newMovie.release_date = tmdbMovieDetails.release_date
+      return newMovie
     } catch (error) {
       console.log(error)
     }

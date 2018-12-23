@@ -1,7 +1,18 @@
 import * as mongoose from 'mongoose';
 
-const Schema = mongoose.Schema;
+export interface Movie {
+  original_title: string
+  imdb_id: string
+  release_date: string
+  is_highlight: boolean
+  image_url: string
+  created_date: string
+}
 
+// combine Movie Interface and mongoose model: https://github.com/Appsilon/styleguide/wiki/mongoose-typescript-models
+export interface MovieModel extends Movie, mongoose.Document { }
+
+const Schema = mongoose.Schema;
 export const MovieSchema = new Schema({
   original_title: {
     type: String,
@@ -25,11 +36,6 @@ export const MovieSchema = new Schema({
   }
 });
 
-// export interface Movie{
-//   original_title: string
-//   imdb_id: string
-//   release_date: string
-//   is_highlight: boolean
-//   image_url: string
-//   created_date: string
+// export interface MovieResponse{
+//   movies: Movie[]
 // }
