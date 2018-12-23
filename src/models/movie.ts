@@ -36,7 +36,7 @@ export const MovieSchema = new Schema({
   }
 });
 
-export interface MovieResponse{
+export interface MovieResponse {
   movies: Movie[]
 }
 
