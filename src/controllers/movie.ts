@@ -36,7 +36,7 @@ export class MovieController {
   public getMovies (req: Request, res: Response) {           
     Movie.find({}, (err, contact) => {
       if(err){
-          res.send(err);
+        res.send(err);
       }
       res.json(contact);
     });
