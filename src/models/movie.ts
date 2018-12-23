@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const MovieSchema = new Schema({
-  original_name: {
+  original_title: {
     type: String,
   },
   imdb_id: {
@@ -24,3 +24,12 @@ export const MovieSchema = new Schema({
     default: Date.now
   }
 });
+
+export interface Movie{
+  original_title: string
+  imdb_id: string
+  release_date: string
+  is_highlight: boolean
+  image_url: string
+  created_date: string
+}
