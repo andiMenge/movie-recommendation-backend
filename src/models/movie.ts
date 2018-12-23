@@ -25,11 +25,11 @@ export const MovieSchema = new Schema({
   }
 });
 
-export interface Movie{
-  original_title: string
-  imdb_id: string
-  release_date: string
-  is_highlight: boolean
-  image_url: string
-  created_date: string
-}
+// export interface Movie{
+//   original_title: string
+//   imdb_id: string
+//   release_date: string
+//   is_highlight: boolean
+//   image_url: string
+//   created_date: string
+// }

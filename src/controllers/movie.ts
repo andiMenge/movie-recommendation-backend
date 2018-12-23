@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema, Movie } from '../models/movie';
+import { MovieSchema } from '../models/movie';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
 import { tmdbFindMovieResponse, Movieresult } from '../models/tmdb';
@@ -23,15 +23,14 @@ export class MovieController {
     const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
     const movie = this.constructMovie(tmdbMovieDetails, imdbURL)
     console.log(movie)
-    res.sendStatus(200)
+    // res.sendStatus(200)
 
-    // res.json(movieDetails)
-    // newMovie.save((err, movie) => {
-    //   if(err){
-    //       res.send(err);
-    //   }    
-    //   res.json(movie);
-    // });
+    movie.save((err, movie) => {
+      if(err){
+          res.send(err);
+      }    
+      res.json(movie);
+    });
   }
 
   public getMovies (req: Request, res: Response) {           
@@ -58,8 +57,8 @@ export class MovieController {
     return imdbID
   }
 
-  private constructMovie(tmdbMovieDetails: Movieresult, imdbURL: string): Movie {
-    const movie: Movie = new Movie();
+  private constructMovie(tmdbMovieDetails: Movieresult, imdbURL: string) {
+    const movie = new Movie();
     try {
       movie.original_title = tmdbMovieDetails.original_title
       movie.image_url = `${tmdbThumbnailURL}${tmdbMovieDetails.poster_path}`
