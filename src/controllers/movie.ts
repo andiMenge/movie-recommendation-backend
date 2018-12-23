@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema, MovieModel, } from '../models/movie';
+import { MovieSchema, MovieModel, MovieResponse, InputData } from '../models/movie';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
 import { tmdbFindMovieResponse, Movieresult } from '../models/tmdb';
@@ -9,10 +9,6 @@ const tmdbUrl = 'https://api.themoviedb.org/3/'
 const tmdbEndpoint = 'find'
 const tmdbApiKey = process.env.TMDB_API_KEY
 const tmdbThumbnailURL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2'
-
-interface InputData {
-  url: string
-}
 
 export class MovieController {
 
@@ -31,12 +27,20 @@ export class MovieController {
     });
   }
 
-  public getMovies (req: Request, res: Response) {           
-    movie.find({}, (err, contact) => {
+  public getMovies (req: Request, res: Response) {
+    const response: MovieResponse = {
+      movies: []
+    }
+
+    // get everything from the db, put it in the response.movies array and respond to the http client
+    movie.find({}, (err, results) => {
       if(err){
         res.send(err);
       }
-      res.json(contact);
+      results.forEach(element => {
+        response.movies.push(element)
+      });
+      res.json(response);
     });
   }
 
