@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { MovieSchema } from '../models/movie';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
+import { json } from 'body-parser';
 
 const Movie = mongoose.model('Movie', MovieSchema);
 
@@ -9,10 +10,14 @@ const tmdbUrl = 'https://api.themoviedb.org/3/'
 const tmdbEndpoint = 'find'
 const tmdbApiKey = process.env.TMDB_API_KEY
 
+interface inputData {
+  url: string
+}
+
 export class MovieController {
 
   public async createMovie (req: Request, res: Response) {
-    const body = req.body
+    const body: inputData = req.body
     const imdbURL = body.url
     const movieDetails = await this.getMovieDetails(this.getImdbIDfromImdbURL(imdbURL))
     res.json(movieDetails)
