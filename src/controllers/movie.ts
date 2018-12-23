@@ -28,7 +28,7 @@ export class MovieController {
   }
 
   public getMovies (req: Request, res: Response) {
-    const response: MovieResponse = {
+    const MovieResponse: MovieResponse = {
       movies: []
     }
 
@@ -38,9 +38,9 @@ export class MovieController {
         res.send(err);
       }
       results.forEach(element => {
-        response.movies.push(element)
+        MovieResponse.movies.push(element)
       });
-      res.json(response);
+      res.json(MovieResponse);
     });
   }
 
