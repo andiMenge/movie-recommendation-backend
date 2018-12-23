@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema, MovieModel, Movie } from '../models/movie';
+import { MovieSchema, MovieModel, } from '../models/movie';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
 import { tmdbFindMovieResponse, Movieresult } from '../models/tmdb';
