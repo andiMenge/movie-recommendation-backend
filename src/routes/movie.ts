@@ -1,6 +1,7 @@
 import {Request, Response, NextFunction} from "express";
 import { MovieController } from "../controllers/movie";
 
+
 export class Routes { 
   public MovieController: MovieController = new MovieController() 
 
