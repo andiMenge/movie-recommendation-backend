@@ -15,9 +15,10 @@ export class MovieController {
   public async createMovie (req: Request, res: Response) {
     const inputData: InputData = req.body
     const imdbURL = inputData.url
-    const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(this.getImdbIDfromImdbURL(imdbURL))
+    const imdbID = this.getImdbIDfromImdbURL(imdbURL)
+    const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(imdbID)
     const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
-    const newMovie = this.constructMovie(tmdbMovieDetails, imdbURL)
+    const newMovie = this.constructMovie(tmdbMovieDetails, imdbID)
 
     newMovie.save((err, movie) => {
       if(err){
