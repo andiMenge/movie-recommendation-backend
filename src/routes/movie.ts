@@ -1,6 +1,6 @@
 import {Request, Response, NextFunction} from "express";
 import { MovieController } from "../controllers/movie";
-
+import * as cors from 'cors';
 
 export class Routes { 
   public MovieController: MovieController = new MovieController() 
@@ -23,7 +23,7 @@ export class Routes {
 
     // Routes
     app.route('/')
-    .all(loggerMiddleware)
+    .all(loggerMiddleware,)
     .get((req: Request, res: Response) => {            
       res.status(200).send({
         message: '200 OK'
@@ -31,7 +31,7 @@ export class Routes {
     })
 
     app.route('/movies')
-    .all(loggerMiddleware)
+    .all(loggerMiddleware, cors())
     .get(this.MovieController.getMovies)
     .post((req, res) => this.MovieController.createMovie(req, res));
   }

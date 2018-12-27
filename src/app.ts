@@ -2,7 +2,6 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/movie";
 import * as mongoose from "mongoose";
-import cors from 'cors';
 
 class App {
 
@@ -12,11 +11,10 @@ class App {
     //public mongoUrl: string = 'mongodb://user:password@127.0.0.1:27017/db';
 
     constructor() {
-        this.app = express();
-        this.config();        
-        this.routePrv.routes(this.app);     
-        this.mongoSetup();
-        this.app.use(cors());
+      this.app = express();
+      this.config();        
+      this.routePrv.routes(this.app);     
+      this.mongoSetup();
     }
 
     private config(): void{
