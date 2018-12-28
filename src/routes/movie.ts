@@ -22,7 +22,7 @@ export class Routes {
     }
 
     // Routes
-    app.route('/')
+    app.route('/health')
     .all(loggerMiddleware,)
     .get((req: Request, res: Response) => {            
       res.status(200).send({
