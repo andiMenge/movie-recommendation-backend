@@ -42,7 +42,7 @@ export class MovieController {
         MovieResponse.movies.push(element)
       });
       res.json(MovieResponse);
-    });
+    }).sort({release_date: -1});
   }
 
   private async getMovieDetails(id: String) {
