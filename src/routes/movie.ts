@@ -23,7 +23,7 @@ export class Routes {
 
     // Routes
     app.route('/health')
-    .all(loggerMiddleware,)
+    .all(loggerMiddleware,cors())
     .get((req: Request, res: Response) => {            
       res.status(200).send({
         message: '200 OK'
