@@ -2,8 +2,10 @@ import {Request, Response, NextFunction} from "express";
 import { MovieController } from "../controllers/movie";
 import * as cors from 'cors';
 
+const authKey = process.env.AUTH_KEY;
+
 export class Routes { 
-  public MovieController: MovieController = new MovieController() 
+  public MovieController: MovieController = new MovieController()
 
   public routes(app): void {   
   
@@ -14,8 +16,8 @@ export class Routes {
     }
 
     const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-      if (req.query.key !== '78942ef2c1c98bf10fca09c808d718fa3734703e') {
-        res.status(401).send('You shall not pass!')
+      if (req.query.key !== authKey) {
+        res.status(401).send('Authentication Failed')
       } else {
         next()
       }
@@ -31,8 +33,8 @@ export class Routes {
     })
 
     app.route('/movies')
-    .all(loggerMiddleware, cors())
-    .get(this.MovieController.getMovies)
-    .post((req, res) => this.MovieController.createMovie(req, res));
+      .all(loggerMiddleware, cors())
+      .get(this.MovieController.getMovies)
+      .post(authMiddleware,(req, res) => this.MovieController.createMovie(req, res));
   }
 }
