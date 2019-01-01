@@ -3,12 +3,14 @@ import * as bodyParser from "body-parser";
 import { Routes } from "./routes/movie";
 import * as mongoose from "mongoose";
 
+const mongoHost = process.env.MONGO_DB_HOST
+
 class App {
 
     public app: express.Application;
     public routePrv: Routes = new Routes();
-    public mongoUrl: string = 'mongodb://127.0.0.1/db';  
-    //public mongoUrl: string = 'mongodb://user:password@127.0.0.1:27017/db';
+    public mongoUrl: string = `mongodb://${mongoHost}/movie-favs`;
+    //public mongoUrl: string = `mongodb://${mongoUser}:${mongoPass}@${mongoHost}:27017/movie-favs`;
 
     constructor() {
       this.app = express();
