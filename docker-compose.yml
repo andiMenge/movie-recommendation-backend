@@ -8,8 +8,7 @@ services:
       - "traefik.enable=true"
       - "traefik.backend=movie-favs-service" # backend name
       - "traefik.port=3000"
-      - "traefik.frontend.rule=Host:movies.andimenge.de"
-      - "traefik.frontend.rule=PathPrefixStrip:/api"
+      - "traefik.frontend.rule=Host:movies.andimenge.de;PathPrefixStrip:/api"
       - "traefik.docker.network=loadbalancer"
     environment:
       - MONGO_DB_HOST=mongodb
