@@ -63,7 +63,7 @@ export class MovieController {
   private constructMovie(tmdbMovieDetails: Movieresult, imdbURL: string) {
     const newMovie = new movie();
     try {
-      newMovie.original_title = tmdbMovieDetails.original_title
+      newMovie.original_title = tmdbMovieDetails.title
       newMovie.image_url = `${tmdbThumbnailURL}${tmdbMovieDetails.poster_path}`
       newMovie.is_highlight = false
       newMovie.imdb_id = imdbURL
