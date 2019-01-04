@@ -36,11 +36,16 @@ export class MovieController {
   }
 
   public async getMovies (req: Request, res: Response) {
-    const results = await movie.find({}).sort({release_date: -1})
-    const movieResponse: MovieResponse = {
-      movies: results
+    try {
+      const results = await movie.find({}).sort({release_date: -1})
+      const movieResponse: MovieResponse = {
+        movies: results
+      }
+      res.json(movieResponse)
+    } catch (error) {
+      res.sendStatus(500)
+      console.log(error)
     }
-    res.json(movieResponse)
   }
 
   private async getMovieDetails(id: String) {
