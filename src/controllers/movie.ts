@@ -35,21 +35,12 @@ export class MovieController {
     }
   }
 
-  public getMovies (req: Request, res: Response) {
-    const MovieResponse: MovieResponse = {
-      movies: []
+  public async getMovies (req: Request, res: Response) {
+    const results = await movie.find({}).sort({release_date: -1})
+    const movieResponse: MovieResponse = {
+      movies: results
     }
-
-    // get everything from the db, put it in the response.movies array and respond to the http client
-    movie.find({}, (err, results) => {
-      if(err){
-        res.send(err);
-      }
-      results.forEach(element => {
-        MovieResponse.movies.push(element)
-      });
-      res.json(MovieResponse);
-    }).sort({release_date: -1});
+    res.json(movieResponse)
   }
 
   private async getMovieDetails(id: String) {
