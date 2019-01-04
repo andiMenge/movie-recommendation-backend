@@ -13,25 +13,24 @@ const tmdbThumbnailURL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2'
 export class MovieController {
 
   public async createMovie (req: Request, res: Response) {
-    const inputData: InputData = req.body
-    const imdbURL = inputData.url
-    const imdbID = this.getImdbIDfromImdbURL(imdbURL)
-    const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(imdbID)
-    const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
-    const newMovie = this.constructMovie(tmdbMovieDetails, imdbID)
-
-    const duplicate = await this.isDuplicate(imdbID)
-    console.log(duplicate)
-
-    if (!duplicate) {
-      newMovie.save((err, movie) => {
-        if(err){
-          res.send(err);
-        }    
-        res.json(movie);
-      });
-    } else {
-      res.sendStatus(406)
+    try {
+      const inputData: InputData = req.body
+      const imdbURL = inputData.url
+      const imdbID = this.getImdbIDfromImdbURL(imdbURL)
+      const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(imdbID)
+      const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
+      const newMovie = this.constructMovie(tmdbMovieDetails, imdbID)
+      const duplicate = await this.isDuplicate(imdbID)
+  
+      if (!duplicate) {
+        const movie = await newMovie.save()
+        res.send(movie)
+      } else {
+        res.sendStatus(406)
+      }
+    } catch (error) {
+      res.sendStatus(500)
+      console.log(error)
     }
   }
 
