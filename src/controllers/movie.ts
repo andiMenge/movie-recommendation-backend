@@ -20,12 +20,19 @@ export class MovieController {
     const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
     const newMovie = this.constructMovie(tmdbMovieDetails, imdbID)
 
-    newMovie.save((err, movie) => {
-      if(err){
-        res.send(err);
-      }    
-      res.json(movie);
-    });
+    const duplicate = await this.isDuplicate(imdbID)
+    console.log(duplicate)
+
+    if (!duplicate) {
+      newMovie.save((err, movie) => {
+        if(err){
+          res.send(err);
+        }    
+        res.json(movie);
+      });
+    } else {
+      res.sendStatus(406)
+    }
   }
 
   public getMovies (req: Request, res: Response) {
@@ -73,4 +80,18 @@ export class MovieController {
       console.log(error)
     }
   }
+
+  private async isDuplicate(id: string):Promise<boolean> {
+    try {
+      const result = await movie.findOne({ imdb_id: id })
+      if (result === null) {
+        return false
+      } else {
+        return true
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 }
