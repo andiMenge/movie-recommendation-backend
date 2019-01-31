@@ -1,5 +1,5 @@
 import {Request, Response, NextFunction} from "express";
-import { MovieController } from "../controllers/movie";
+import { MovieController } from "./moviesHandlers";
 import * as cors from 'cors';
 
 const authKey = process.env.AUTH_KEY;

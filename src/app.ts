@@ -1,6 +1,6 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from "./routes/movie";
+import { Routes } from "./movies/moviesRoutes";
 import * as mongoose from "mongoose";
 
 const mongoHost = process.env.MONGO_DB_HOST

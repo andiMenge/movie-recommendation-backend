@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema, MovieModel, MovieResponse, InputData } from '../models/movie';
+import { MovieSchema, MovieModel, MovieResponse, InputData } from './moviesModels';
 import { Request, Response } from 'express';
 import * as needle from 'needle';
-import { tmdbFindMovieResponse, Movieresult } from '../models/tmdb';
+import { tmdbFindMovieResponse, Movieresult } from '../tmdb/tmdbModels';
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
 const tmdbUrl = 'https://api.themoviedb.org/3/'
@@ -12,16 +12,16 @@ const tmdbThumbnailURL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2'
 
 export class MovieController {
 
-  public async createMovie (req: Request, res: Response) {
+  public async createMovie(req: Request, res: Response) {
     try {
       const inputData: InputData = req.body
       const imdbURL = inputData.url
       const imdbID = this.getImdbIDfromImdbURL(imdbURL)
-      const tmdbResponse: tmdbFindMovieResponse  = await this.getMovieDetails(imdbID)
+      const tmdbResponse: tmdbFindMovieResponse = await this.getMovieDetails(imdbID)
       const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
       const newMovie = this.constructMovie(tmdbMovieDetails, imdbID)
       const duplicate = await this.isDuplicate(imdbID)
-  
+
       if (!duplicate) {
         const movie = await newMovie.save()
         res.send(movie)
@@ -34,9 +34,9 @@ export class MovieController {
     }
   }
 
-  public async getMovies (req: Request, res: Response) {
+  public async getMovies(req: Request, res: Response) {
     try {
-      const results = await movie.find({}).sort({release_date: -1})
+      const results = await movie.find({}).sort({ release_date: -1 })
       const movieResponse: MovieResponse = {
         movies: results
       }
@@ -58,7 +58,7 @@ export class MovieController {
   }
 
   private getImdbIDfromImdbURL(url: String) {
-    const imdbID = url.substring(27,36)
+    const imdbID = url.substring(27, 36)
     return imdbID
   }
 
@@ -76,7 +76,7 @@ export class MovieController {
     }
   }
 
-  private async isDuplicate(id: string):Promise<boolean> {
+  private async isDuplicate(id: string): Promise<boolean> {
     try {
       const result = await movie.findOne({ imdb_id: id })
       if (result === null) {
