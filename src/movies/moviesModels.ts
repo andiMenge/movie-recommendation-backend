@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export interface Movie {
+interface Movie {
   original_title: string
   imdb_id: string
   release_date: string
