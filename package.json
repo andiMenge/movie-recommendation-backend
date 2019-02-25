@@ -22,7 +22,6 @@
     "express": "^4.16.3",
     "mongoose": "^5.4.15",
     "needle": "^2.2.4",
-    "nodemon": "^1.18.9",
-    "tslint": "^5.13.0"
+    "nodemon": "^1.18.9"
   }
 }
