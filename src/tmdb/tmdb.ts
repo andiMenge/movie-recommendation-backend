@@ -22,7 +22,8 @@ export default class Tmdb {
       const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
       return tmdbMovieDetails
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
+      throw new Error('get movie info from tmdb failed')
     }
   }
 }

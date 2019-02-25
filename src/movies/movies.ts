@@ -7,27 +7,37 @@ const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
 const tmdb = new Tmdb
 
 export async function saveMovie(id:string): Promise<MovieModel> {
-  const movieInfo: Movieresult = await tmdb.getMovieInfo(id)
-  const newMovie = new movie({
-    original_title: movieInfo.original_title,
-    imdb_id: id,
-    release_date: movieInfo.release_date,
-    is_highlight: false,
-    image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`
-  })
-
-  const duplicate = await isDuplicate(id)
-  if (!duplicate) {
-    newMovie.save()
-    return newMovie
-  } else {
-    console.log('Movie is duplicate, not saving') 
+  try {
+    const movieInfo: Movieresult = await tmdb.getMovieInfo(id)
+    const newMovie = new movie({
+      original_title: movieInfo.original_title,
+      imdb_id: id,
+      release_date: movieInfo.release_date,
+      is_highlight: false,
+      image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`
+    })
+  
+    const duplicate = await isDuplicate(id)
+    if (!duplicate) {
+      newMovie.save()
+      return newMovie
+    } else {
+      console.log('Movie is duplicate, not saving')
+    }
+  } catch (error) {
+    console.log(error.message)
+    throw new Error('saving movie failed')
   }
 }
 
 export async function readMovies() {
-  const result = await movie.find({}).sort({ release_date: -1 })
-  return result
+  try {
+    const result = await movie.find({}).sort({ release_date: -1 })
+    return result
+  } catch (error) {
+    console.log(error.message)
+    throw new Error('reading from db failed')
+  }
 }
 
 async function isDuplicate(id: string): Promise<boolean> {
@@ -39,6 +49,6 @@ async function isDuplicate(id: string): Promise<boolean> {
       return true
     }
   } catch (error) {
-  console.log(error)
+  console.log(error.message)
   }
 }
