@@ -2,6 +2,7 @@ import * as mongoose from 'mongoose';
 import { MovieSchema, MovieModel, MovieResponse, InputData } from './moviesModels';
 import { Movieresult } from '../tmdb/tmdbModels'
 import Tmdb from '../tmdb/tmdb'
+import { isDuplicate } from './moviesHelpers'
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
 const tmdb = new Tmdb
@@ -37,18 +38,5 @@ export async function readMovies() {
   } catch (error) {
     console.log(error.message)
     throw new Error('reading from db failed')
-  }
-}
-
-async function isDuplicate(id: string): Promise<boolean> {
-  try {
-    const result = await movie.findOne({ imdb_id: id })
-    if(result === null) {
-      return false
-    } else {
-      return true
-    }
-  } catch (error) {
-  console.log(error.message)
   }
 }
