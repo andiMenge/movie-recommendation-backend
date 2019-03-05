@@ -7,6 +7,7 @@ interface Movie {
   is_highlight: boolean
   image_url: string
   created_date: string
+  genres: string[]
 }
 
 // combine Movie Interface and mongoose model: https://github.com/Appsilon/styleguide/wiki/mongoose-typescript-models
@@ -33,7 +34,10 @@ export const MovieSchema = new Schema({
   created_date: {
     type: Date,
     default: Date.now
-  }
+  },
+  genres: {
+    type: [String]
+  },
 });
 
 export interface MovieResponse {

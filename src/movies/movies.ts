@@ -15,7 +15,8 @@ export async function saveMovie(id:string): Promise<MovieModel> {
       imdb_id: id,
       release_date: movieInfo.release_date,
       is_highlight: false,
-      image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`
+      image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`,
+      genres: genres
     })
   
     const duplicate = await isDuplicate(id)
