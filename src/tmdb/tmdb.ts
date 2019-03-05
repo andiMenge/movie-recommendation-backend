@@ -1,5 +1,5 @@
 import * as needle from 'needle'
-import { tmdbFindMovieResponse, Movieresult } from '../tmdb/tmdbModels'
+import { tmdbFindMovieResponse, Movieresult, TmdbGenres, Genre } from '../tmdb/tmdbModels'
 
 export default class Tmdb {
   tmdbUrl: string
@@ -24,6 +24,36 @@ export default class Tmdb {
     } catch (error) {
       console.log(error.message)
       throw new Error('get movie info from tmdb failed')
+    }
+  }
+
+  public async getGenres(): Promise<Genre[]> {
+    const url = `${this.tmdbUrl}genre/movie/list?api_key=${this.tmdbApiKey}`
+    try {
+      const resp = await needle('get', url)
+      const TmdbRespBody: TmdbGenres = resp.body
+      return TmdbRespBody.genres
+    } catch (error) {
+      console.log(error.message)
+      throw new Error('get genres from tmdb failed')
+    }
+  }
+
+  public async getGenreNamesfromGenreIds(genre_ids: number[]): Promise<string[]> {
+    const genreNames: string[] = []
+    try {
+      const tmdbGenres: Genre[] = await this.getGenres()
+      for (const genreId of genre_ids) {
+        for (const tmdbGenre of tmdbGenres) {
+          if (genreId === tmdbGenre.id) {
+            genreNames.push(tmdbGenre.name)
+          }
+        }
+      }
+      return genreNames
+    } catch (error) {
+      console.log(error.message)
+      throw new Error('could not compute genre names')
     }
   }
 }

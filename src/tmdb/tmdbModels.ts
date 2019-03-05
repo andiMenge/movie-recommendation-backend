@@ -21,3 +21,12 @@ export interface Movieresult {
   vote_average: number;
   vote_count: number;
 }
+
+export interface TmdbGenres {
+  genres: Genre[];
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}

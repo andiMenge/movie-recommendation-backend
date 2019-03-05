@@ -10,6 +10,7 @@ const tmdb = new Tmdb
 export async function saveMovie(id:string): Promise<MovieModel> {
   try {
     const movieInfo: Movieresult = await tmdb.getMovieInfo(id)
+    const genres = await tmdb.getGenreNamesfromGenreIds(movieInfo.genre_ids)
     const newMovie = new movie({
       original_title: movieInfo.original_title,
       imdb_id: id,
