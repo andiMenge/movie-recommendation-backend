@@ -1,6 +1,7 @@
 import { MovieResponse, InputData } from './moviesModels'
 import { Request, Response } from 'express';
 import { saveMovie, readMovies } from './movies'
+import { getImdbIDfromImdbURL } from './moviesHelpers'
 
 export class MovieController {
 
@@ -8,7 +9,7 @@ export class MovieController {
     try {
       const inputData: InputData = req.body
       const imdbURL = inputData.url
-      const imdbID = this.getImdbIDfromImdbURL(imdbURL)
+      const imdbID = await getImdbIDfromImdbURL(imdbURL)
       const movie = await saveMovie(imdbID)
       res.send(movie)
     } catch (error) {
@@ -28,11 +29,6 @@ export class MovieController {
       res.sendStatus(500)
       console.log(error)
     }
-  }
-
-  private getImdbIDfromImdbURL(url: String) {
-    const imdbID = url.substring(27, 36)
-    return imdbID
   }
 
 }

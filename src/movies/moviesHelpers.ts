@@ -16,3 +16,8 @@ export async function isDuplicate(id: string): Promise<boolean> {
     throw new Error('find movie in db failed')
   }
 }
+
+export async function getImdbIDfromImdbURL(url: String) {
+  const imdbID = url.substring(27, 36)
+  return imdbID
+}
