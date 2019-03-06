@@ -1,7 +1,7 @@
 import * as mongoose from "mongoose";
 import { MovieSchema, MovieModel } from "../src/movies/moviesModels";
 import Tmdb from "../src/tmdb/tmdb";
-import { Movieresult, Genre } from "../src/tmdb/tmdbModels";
+import { Movieresult } from "../src/tmdb/tmdbModels";
 
 const mongoHost = process.env.MONGO_DB_HOST;
 const mongoUrl = `mongodb://${mongoHost}/movie-favs`;
@@ -16,7 +16,6 @@ getAllDocs()
 .catch())
 
 function connectToDb(): void {
-  // mongoose.Promise = global.Promise;
   try {
     mongoose.connect(mongoUrl, { useNewUrlParser: true })
   } catch (error) {

@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { MovieSchema, MovieModel, MovieResponse, InputData } from './moviesModels';
+import { MovieSchema, MovieModel } from './moviesModels';
 import { Movieresult } from '../tmdb/tmdbModels'
 import Tmdb from '../tmdb/tmdb'
 import { isDuplicate } from './moviesHelpers'
