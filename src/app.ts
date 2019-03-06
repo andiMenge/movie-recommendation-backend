@@ -15,7 +15,7 @@ class App {
     constructor() {
       this.app = express();
       this.config();        
-      this.routePrv.routes(this.app);     
+      this.routePrv.routes(this.app);
       this.mongoSetup();
     }
 
@@ -27,7 +27,7 @@ class App {
     }
 
     private mongoSetup(): void{
-      mongoose.connect(this.mongoUrl, { useNewUrlParser: true });        
+      mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
     }
 
 }
