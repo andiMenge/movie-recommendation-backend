@@ -1,5 +1,6 @@
 name := movie-favs
 dockerTag := $(shell git rev-parse head)
+apiUrl := 'https://movies.andimenge.de/api/movies'
 
 db:
 	@docker run -d -p 27017:27017 mongo
@@ -12,3 +13,6 @@ docker:
 
 push:
 	@docker push andimenge/$(name):$(dockerTag)
+
+getFromApi:
+	@http ${apiUrl} |jq '.movies | sort_by(.created_date)'
