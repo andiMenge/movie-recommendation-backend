@@ -1,6 +1,6 @@
-import { MovieResponse, InputData } from './moviesModels';
+import { MovieResponse, InputData } from './moviesModels'
 import { Request, Response } from 'express';
-import { saveMovie, readMovies } from '../movies/movies'
+import { saveMovie, readMovies } from './movies'
 
 export class MovieController {
 
