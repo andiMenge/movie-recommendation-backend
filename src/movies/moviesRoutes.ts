@@ -33,8 +33,13 @@ export class Routes {
     })
 
     app.route('/movies')
+    .all(loggerMiddleware, cors())
+    .get(this.MovieController.getMovies)
+    .post(authMiddleware,(req, res) => this.MovieController.createMovie(req, res))
+
+    app.route('/movies/:id?')
       .all(loggerMiddleware, cors())
-      .get(this.MovieController.getMovies)
-      .post(authMiddleware,(req, res) => this.MovieController.createMovie(req, res));
+      .put(authMiddleware, (req, res) => this.MovieController.updateMovie(req, res))
+
   }
 }

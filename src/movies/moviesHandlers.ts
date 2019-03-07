@@ -1,6 +1,6 @@
-import { MovieResponse, InputData } from './moviesModels'
+import { MovieResponse, InputData, MovieModel } from './moviesModels'
 import { Request, Response } from 'express';
-import { saveMovie, readMovies } from './movies'
+import { saveMovie, readMovies, updateMovie } from './movies'
 import { getImdbIDfromImdbURL } from './moviesHelpers'
 
 export class MovieController {
@@ -25,6 +25,17 @@ export class MovieController {
         movies: movies
       }
       res.json(movieResponse)
+    } catch (error) {
+      res.sendStatus(500)
+      console.log(error)
+    }
+  }
+
+  public async updateMovie(req: Request, res: Response) {
+    try {
+      const newMovie: MovieModel = req.body
+      const updatedMovie = await updateMovie(req.params.id, newMovie)
+      res.json(updatedMovie)
     } catch (error) {
       res.sendStatus(500)
       console.log(error)

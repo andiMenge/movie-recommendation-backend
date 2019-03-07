@@ -27,6 +27,7 @@ class App {
     }
 
     private mongoSetup(): void{
+      mongoose.set('useFindAndModify', false)
       mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
     }
 
