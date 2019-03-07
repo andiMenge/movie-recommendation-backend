@@ -45,7 +45,7 @@ export async function readMovies() {
 
 export async function updateMovie(id: string, newMovie: MovieModel): Promise<MovieModel> {
   try {
-    const updatedMovie = await movie.findOneAndUpdate(id, newMovie, { new: true })
+    const updatedMovie = await movie.findByIdAndUpdate(id, newMovie, { new: true })
     return updatedMovie
   } catch (error) {
     console.log(error.message)
