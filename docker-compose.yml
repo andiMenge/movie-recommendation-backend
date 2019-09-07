@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   service:
-    image: andimenge/movie-favs:8ae6e6cb75a145acd6ef647dde628bc1583e5187
+    image: andimenge/movie-favs:5e1f3c79e2aec76da48004bffde283007762811d
     init: true
     scale: 1
     labels:
