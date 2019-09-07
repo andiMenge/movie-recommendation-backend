@@ -5,41 +5,41 @@ services:
     init: true
     scale: 1
     labels:
-      - "traefik.enable=true"
-      - "traefik.backend=movie-favs-service" # backend name
-      - "traefik.port=3000"
-      - "traefik.frontend.rule=Host:movies.andimenge.de;PathPrefixStrip:/api"
-      - "traefik.docker.network=loadbalancer"
+      - 'traefik.enable=true'
+      - 'traefik.backend=movie-favs-service' # backend name
+      - 'traefik.port=3000'
+      - 'traefik.frontend.rule=Host:movies.andimenge.de;PathPrefixStrip:/api'
+      - 'traefik.docker.network=loadbalancer'
     environment:
       - MONGO_DB_HOST=mongodb
       - AUTH_KEY=${AUTH_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
       - TZ=Europe/Berlin
     cpu_count: 1
     mem_reservation: 100m
     mem_limit: 1500000000
     restart: always
     depends_on:
-    - mongodb
+      - mongodb
     networks:
       - loadbalancer
       - default
 
   mongodb: # mongo port 27017
-    image: "mongo:4-xenial"
+    image: 'mongo:4-xenial'
     init: true
     environment:
-    - TZ=Europe/Berlin
+      - TZ=Europe/Berlin
     # - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USER}
     # - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASS}
     volumes:
-      - "/home/docker/data/movie-favs/mongo:/data/db"
+      - '/home/docker/data/movie-favs/mongo:/data/db'
     labels:
-    - traefik.enable=false
+      - traefik.enable=false
     restart: always
     mem_reservation: 500m
     mem_limit: 20000000000
 networks:
   loadbalancer:
     external: true
-  
