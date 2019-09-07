@@ -1,13 +1,14 @@
-import * as mongoose from 'mongoose';
-import { MovieSchema, MovieModel } from './moviesModels';
+import * as mongoose from 'mongoose'
+import { MovieSchema, MovieModel } from './moviesModels'
 import { Movieresult } from '../tmdb/tmdbModels'
 import Tmdb from '../tmdb/tmdb'
 import { isDuplicate } from './moviesHelpers'
+import { sendToSlack } from '../slack/slack'
 
-const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
-const tmdb = new Tmdb
+const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
+const tmdb = new Tmdb()
 
-export async function saveMovie(id:string): Promise<MovieModel> {
+export async function saveMovie(id: string): Promise<MovieModel> {
   try {
     const movieInfo: Movieresult = await tmdb.getMovieInfo(id)
     const genres = await tmdb.getGenreNamesfromGenreIds(movieInfo.genre_ids)
@@ -17,9 +18,9 @@ export async function saveMovie(id:string): Promise<MovieModel> {
       release_date: movieInfo.release_date,
       is_highlight: false,
       image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`,
-      genres: genres
+      genres: genres,
     })
-  
+
     const duplicate = await isDuplicate(id)
     if (!duplicate) {
       newMovie.save()
@@ -50,5 +51,14 @@ export async function updateMovie(id: string, newMovie: MovieModel): Promise<Mov
   } catch (error) {
     console.log(error.message)
     throw new Error('findAndUpdate failed for movie')
+  }
+}
+
+export async function notify(movie: MovieModel) {
+  try {
+    await sendToSlack(movie.original_title, movie.imdb_id, movie.image_url)
+  } catch (error) {
+    console.error(error.message)
+    throw new Error('send to slack failed')
   }
 }
