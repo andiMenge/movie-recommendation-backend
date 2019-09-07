@@ -1,7 +1,7 @@
-import { MovieSchema, MovieModel } from './moviesModels';
-import * as mongoose from 'mongoose';
+import { MovieSchema, MovieModel } from './moviesModels'
+import * as mongoose from 'mongoose'
 
-const movie = mongoose.model<MovieModel>('Movie', MovieSchema);
+const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
 
 export async function isDuplicate(id: string): Promise<boolean> {
   try {

@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose'
 
 interface Movie {
   original_title: string
@@ -11,34 +11,34 @@ interface Movie {
 }
 
 // combine Movie Interface and mongoose model: https://github.com/Appsilon/styleguide/wiki/mongoose-typescript-models
-export interface MovieModel extends Movie, mongoose.Document { }
+export interface MovieModel extends Movie, mongoose.Document {}
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 export const MovieSchema = new Schema({
   original_title: {
     type: String,
   },
   imdb_id: {
     type: String,
-    required: ''
+    required: '',
   },
   release_date: {
-    type: String            
+    type: String,
   },
   is_highlight: {
-    type: Boolean           
+    type: Boolean,
   },
   image_url: {
-    type: String           
+    type: String,
   },
   created_date: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   genres: {
-    type: [String]
+    type: [String],
   },
-});
+})
 
 export interface MovieResponse {
   movies: Movie[]

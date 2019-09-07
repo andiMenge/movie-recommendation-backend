@@ -1,17 +1,16 @@
-import {Request, Response, NextFunction} from "express";
-import { MovieController } from "./moviesHandlers";
-import * as cors from 'cors';
+import { Request, Response, NextFunction } from 'express'
+import { MovieController } from './moviesHandlers'
+import * as cors from 'cors'
 
-const authKey = process.env.AUTH_KEY;
+const authKey = process.env.AUTH_KEY
 
-export class Routes { 
+export class Routes {
   public MovieController: MovieController = new MovieController()
 
-  public routes(app): void {   
-  
+  public routes(app): void {
     // Middlewares
     const loggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
-      console.log(`${req.method} ${req.originalUrl} ${res.statusCode}`);
+      console.log(`${req.method} ${req.originalUrl} ${res.statusCode}`)
       next()
     }
 
@@ -24,22 +23,24 @@ export class Routes {
     }
 
     // Routes
-    app.route('/health')
-    .all(loggerMiddleware,cors())
-    .get((req: Request, res: Response) => {            
-      res.status(200).send({
-        message: '200 OK'
+    app
+      .route('/health')
+      .all(loggerMiddleware, cors())
+      .get((req: Request, res: Response) => {
+        res.status(200).send({
+          message: '200 OK',
+        })
       })
-    })
 
-    app.route('/movies')
-    .all(loggerMiddleware, cors())
-    .get(this.MovieController.getMovies)
-    .post(authMiddleware,(req, res) => this.MovieController.createMovie(req, res))
+    app
+      .route('/movies')
+      .all(loggerMiddleware, cors())
+      .get(this.MovieController.getMovies)
+      .post(authMiddleware, (req, res) => this.MovieController.createMovie(req, res))
 
-    app.route('/movies/:id?')
+    app
+      .route('/movies/:id?')
       .all(loggerMiddleware, cors())
       .put(authMiddleware, (req, res) => this.MovieController.updateMovie(req, res))
-
   }
 }
