@@ -4,6 +4,7 @@ import { Movieresult } from '../tmdb/tmdbModels'
 import Tmdb from '../tmdb/tmdb'
 import { isDuplicate } from './moviesHelpers'
 import { sendToSlack } from '../slack/slack'
+import { addToFeed } from '../feed/feed'
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
 const tmdb = new Tmdb()
@@ -56,10 +57,17 @@ export async function updateMovie(id: string, newMovie: MovieModel): Promise<Mov
 }
 
 export async function notify(movie: MovieModel) {
+  // try {
+  //   await sendToSlack(movie.original_title, movie.imdb_id, movie.image_url)
+  // } catch (error) {
+  //   console.error(error.message)
+  //   throw new Error('Send to slack failed')
+  // }
+
   try {
-    await sendToSlack(movie.original_title, movie.imdb_id, movie.image_url)
+    addToFeed(movie.original_title, movie.imdb_id, movie.image_url)
   } catch (error) {
     console.error(error.message)
-    throw new Error('send to slack failed')
+    throw new Error('Add movie to feed failed')
   }
 }
