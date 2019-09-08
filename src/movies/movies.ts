@@ -24,6 +24,7 @@ export async function saveMovie(id: string): Promise<MovieModel> {
     const duplicate = await isDuplicate(id)
     if (!duplicate) {
       newMovie.save()
+      await notify(newMovie)
       return newMovie
     } else {
       console.log('Movie is duplicate, not saving')

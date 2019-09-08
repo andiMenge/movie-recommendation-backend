@@ -1,6 +1,6 @@
 import { MovieResponse, InputData, MovieModel } from './moviesModels'
 import { Request, Response } from 'express'
-import { saveMovie, readMovies, updateMovie, notify } from './movies'
+import { saveMovie, readMovies, updateMovie } from './movies'
 import { getImdbIDfromImdbURL } from './moviesHelpers'
 
 export class MovieController {
@@ -10,7 +10,6 @@ export class MovieController {
       const imdbURL = inputData.url
       const imdbID = await getImdbIDfromImdbURL(imdbURL)
       const movie = await saveMovie(imdbID)
-      await notify(movie)
       res.send(movie)
     } catch (error) {
       res.sendStatus(500)
