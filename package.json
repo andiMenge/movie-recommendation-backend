@@ -1,6 +1,9 @@
 {
   "name": "movie-recommendation-backend",
   "version": "0.1.0",
+  "engines": {
+    "node": "^11"
+  },
   "description": "Movie Recommendation Service",
   "main": "dist/server.js",
   "scripts": {
