@@ -44,6 +44,7 @@ export class MovieController {
 
   public async feed(req: Request, res: Response) {
     try {
+      res.header('Content-Type', 'application/xml')
       res.send(feed.atom1())
     } catch (error) {
       res.sendStatus(500)

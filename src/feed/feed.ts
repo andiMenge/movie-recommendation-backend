@@ -14,8 +14,7 @@ export const feed = new Feed({
   updated: new Date(2013, 6, 14), // optional, default = today
   generator: 'Feed for Node.js', // optional, default = 'Feed for Node.js'
   feedLinks: {
-    json: 'https://movies.andimenge.de/json',
-    atom: 'https://movies.andimenge.de/atom',
+    atom: 'https://movies.andimenge.de/api/feed',
   },
   author: {
     name: 'Movie Favs',
