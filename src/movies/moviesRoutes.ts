@@ -42,5 +42,10 @@ export class Routes {
       .route('/movies/:id?')
       .all(loggerMiddleware, cors())
       .put(authMiddleware, (req, res) => this.MovieController.updateMovie(req, res))
+
+    app
+      .route('/feed')
+      .all(loggerMiddleware, cors())
+      .get(this.MovieController.feed)
   }
 }
