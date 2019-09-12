@@ -3,16 +3,16 @@ import { Item } from 'feed/lib/typings'
 import { readMovies } from '../movies/movies'
 import { MovieModel } from 'movies/moviesModels'
 
-export let feed = new Feed({
+export const feed = new Feed({
   title: 'Movie Favs',
-  description: 'Personal Movie favorites',
+  description: 'Personal Movie Favorites',
   id: 'https://movies.andimenge.de/',
   link: 'https://movies.andimenge.de/',
   image: 'https://movies.andimenge.de/favicon.ico',
   favicon: 'https://movies.andimenge.de/favicon.ico',
   copyright: 'All rights reserved 2019, Movie Favs',
   updated: new Date(2013, 6, 14), // optional, default = today
-  generator: 'awesome', // optional, default = 'Feed for Node.js'
+  generator: 'Feed for Node.js', // optional, default = 'Feed for Node.js'
   feedLinks: {
     json: 'https://movies.andimenge.de/json',
     atom: 'https://movies.andimenge.de/atom',
@@ -56,5 +56,5 @@ export async function createInitialFeed() {
     }
     feed.addItem(item)
   })
-  console.log(`added ${movies.length} movie to feed!`)
+  console.log(`added ${movies.length} movies to feed!`)
 }

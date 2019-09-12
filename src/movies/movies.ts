@@ -57,12 +57,12 @@ export async function updateMovie(id: string, newMovie: MovieModel): Promise<Mov
 }
 
 export async function notify(movie: MovieModel) {
-  // try {
-  //   await sendToSlack(movie.original_title, movie.imdb_id, movie.image_url)
-  // } catch (error) {
-  //   console.error(error.message)
-  //   throw new Error('Send to slack failed')
-  // }
+  try {
+    await sendToSlack(movie.original_title, movie.imdb_id, movie.image_url)
+  } catch (error) {
+    console.error(error.message)
+    throw new Error('Send to slack failed')
+  }
 
   try {
     addToFeed(movie.original_title, movie.imdb_id, movie.image_url)
