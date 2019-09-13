@@ -2,6 +2,7 @@ import express from 'express'
 import { Request, Response, NextFunction } from 'express'
 import * as bodyParser from 'body-parser'
 import cors from 'cors'
+import morgan from 'morgan'
 import mongoose from 'mongoose'
 import { createInitialFeed } from './feed/feed'
 import { router } from './router'
@@ -36,6 +37,7 @@ function defaultRoute(req: Request, res: Response, next: NextFunction) {
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(morgan('tiny'))
 app.use(cors())
 app.use('/', router)
 app.use(defaultRoute) // default route has to be last route
