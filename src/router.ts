@@ -6,7 +6,7 @@ export const router = express.Router()
 
 // this is a global route
 router.get('/health', function(req, res) {
-  res.sendStatus(200)
+  res.sendStatus(204)
 })
 
 router.use('/movies', movieRoutes)
