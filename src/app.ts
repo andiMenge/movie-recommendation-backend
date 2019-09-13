@@ -1,7 +1,8 @@
-import * as express from 'express'
+import express from 'express'
 import * as bodyParser from 'body-parser'
 import { Routes } from './movies/moviesRoutes'
-import * as mongoose from 'mongoose'
+import mongoose from 'mongoose'
+import { createInitialFeed } from './feed/feed'
 
 const mongoHost = process.env.MONGO_DB_HOST
 
@@ -16,6 +17,7 @@ class App {
     this.config()
     this.routePrv.routes(this.app)
     this.mongoSetup()
+    this.createAtomFeed()
   }
 
   private config(): void {
@@ -28,6 +30,10 @@ class App {
   private mongoSetup(): void {
     mongoose.set('useFindAndModify', false)
     mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
+  }
+
+  private async createAtomFeed() {
+    await createInitialFeed()
   }
 }
 

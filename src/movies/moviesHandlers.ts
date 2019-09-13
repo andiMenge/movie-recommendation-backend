@@ -1,7 +1,8 @@
 import { MovieResponse, InputData, MovieModel } from './moviesModels'
 import { Request, Response } from 'express'
-import { saveMovie, readMovies, updateMovie, notify } from './movies'
+import { saveMovie, readMovies, updateMovie } from './movies'
 import { getImdbIDfromImdbURL } from './moviesHelpers'
+import { feed } from '../feed/feed'
 
 export class MovieController {
   public async createMovie(req: Request, res: Response) {
@@ -10,7 +11,6 @@ export class MovieController {
       const imdbURL = inputData.url
       const imdbID = await getImdbIDfromImdbURL(imdbURL)
       const movie = await saveMovie(imdbID)
-      await notify(movie)
       res.send(movie)
     } catch (error) {
       res.sendStatus(500)
@@ -39,6 +39,15 @@ export class MovieController {
     } catch (error) {
       res.sendStatus(500)
       console.log(error)
+    }
+  }
+
+  public async feed(req: Request, res: Response) {
+    try {
+      res.send(feed.atom1())
+    } catch (error) {
+      res.sendStatus(500)
+      console.log(error.message)
     }
   }
 }

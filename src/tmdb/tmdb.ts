@@ -1,4 +1,4 @@
-import * as needle from 'needle'
+import needle from 'needle'
 import { tmdbFindMovieResponse, Movieresult, TmdbGenres, Genre } from '../tmdb/tmdbModels'
 
 export default class Tmdb {

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { MovieController } from './moviesHandlers'
-import * as cors from 'cors'
+import cors from 'cors'
 
 const authKey = process.env.AUTH_KEY
 
@@ -42,5 +42,10 @@ export class Routes {
       .route('/movies/:id?')
       .all(loggerMiddleware, cors())
       .put(authMiddleware, (req, res) => this.MovieController.updateMovie(req, res))
+
+    app
+      .route('/feed')
+      .all(loggerMiddleware, cors())
+      .get(this.MovieController.feed)
   }
 }
