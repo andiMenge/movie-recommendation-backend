@@ -20,7 +20,8 @@ jobs:
           npm run build --if-present
         env:
           CI: true
-      - uses: actions/docker/login@master
+      - name: docker login
+        uses: actions/docker/login@master
         secrets:
           - DOCKER_USERNAME
           - DOCKER_PASSWORD
