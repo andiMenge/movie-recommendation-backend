@@ -1,5 +1,6 @@
 import express from 'express'
 import movieRoutes from './movies/moviesHandlers'
+import feedRoutes from './feed/feedHandlers'
 
 export const router = express.Router()
 
@@ -9,3 +10,4 @@ router.get('/health', function(req, res) {
 })
 
 router.use('/movies', movieRoutes)
+router.use('/feed', feedRoutes)

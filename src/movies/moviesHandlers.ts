@@ -2,7 +2,6 @@ import { Router } from 'express'
 import { MovieResponse, InputData, MovieModel } from './moviesModels'
 import { saveMovie, readMovies, updateMovie } from './movies'
 import { getImdbIDfromImdbURL } from './moviesHelpers'
-import { feed } from '../feed/feed'
 
 const router = Router()
 
@@ -40,16 +39,6 @@ router.put('/:id?', async (req, res) => {
   } catch (error) {
     res.sendStatus(500)
     console.log(error)
-  }
-})
-
-router.get('/', (req, res) => {
-  try {
-    res.header('Content-Type', 'application/xml')
-    res.send(feed.atom1())
-  } catch (error) {
-    res.sendStatus(500)
-    console.log(error.message)
   }
 })
 
