@@ -1,40 +1,44 @@
 import express from 'express'
+import { Request, Response, NextFunction } from 'express'
 import * as bodyParser from 'body-parser'
-import { Routes } from './movies/moviesRoutes'
+import cors from 'cors'
+import morgan from 'morgan'
 import mongoose from 'mongoose'
 import { createInitialFeed } from './feed/feed'
+import { router } from './router'
 
 const mongoHost = process.env.MONGO_DB_HOST
+const mongoUrl: string = `mongodb://${mongoHost}/movie-favs`
+export const app = express()
 
-class App {
-  public app: express.Application
-  public routePrv: Routes = new Routes()
-  public mongoUrl: string = `mongodb://${mongoHost}/movie-favs`
-  //public mongoUrl: string = `mongodb://${mongoUser}:${mongoPass}@${mongoHost}:27017/movie-favs`;
-
-  constructor() {
-    this.app = express()
-    this.config()
-    this.routePrv.routes(this.app)
-    this.mongoSetup()
-    this.createAtomFeed()
-  }
-
-  private config(): void {
-    this.app.use(bodyParser.json())
-    this.app.use(bodyParser.urlencoded({ extended: false }))
-    // serving static files
-    this.app.use(express.static('src/public'))
-  }
-
-  private mongoSetup(): void {
+function init() {
+  try {
     mongoose.set('useFindAndModify', false)
-    mongoose.connect(this.mongoUrl, { useNewUrlParser: true })
-  }
-
-  private async createAtomFeed() {
-    await createInitialFeed()
+    mongoose.connect(mongoUrl, { useNewUrlParser: true })
+    createInitialFeed()
+  } catch (error) {
+    console.error(error.message)
+    throw new Error('App initilization failed')
   }
 }
 
-export default new App().app
+init()
+
+// Custom error handler
+function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
+  console.error(err.stack)
+  res.status(500).json({ error: err.message })
+}
+
+// Default route
+function defaultRoute(req: Request, res: Response, next: NextFunction) {
+  res.sendStatus(404)
+}
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(morgan('tiny'))
+app.use(cors())
+app.use('/', router)
+app.use(defaultRoute) // default route has to be last route
+app.use(errorHandler) // Error handler goes last
