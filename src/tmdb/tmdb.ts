@@ -1,5 +1,6 @@
 import needle from 'needle'
 import { tmdbFindMovieResponse, Movieresult, TmdbGenres, Genre } from '../tmdb/tmdbModels'
+import { config } from '../config/config'
 
 export default class Tmdb {
   tmdbUrl: string
@@ -10,7 +11,7 @@ export default class Tmdb {
   constructor() {
     this.tmdbUrl = 'https://api.themoviedb.org/3/'
     this.tmdbEndpoint = 'find'
-    this.tmdbApiKey = process.env.TMDB_API_KEY
+    this.tmdbApiKey = config.get('tmdb.token')
     this.tmdbThumbnailURL = 'https://image.tmdb.org/t/p/w185_and_h278_bestv2'
   }
 

@@ -6,8 +6,9 @@ import morgan from 'morgan'
 import mongoose from 'mongoose'
 import { createInitialFeed } from './feed/feed'
 import { router } from './router'
+import { config } from './config/config'
 
-const mongoHost = process.env.MONGO_DB_HOST
+const mongoHost = config.get('db.host')
 const mongoUrl: string = `mongodb://${mongoHost}/movie-favs`
 export const app = express()
 

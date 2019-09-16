@@ -1,7 +1,8 @@
 import { IncomingWebhook } from '@slack/webhook'
 import { IslackMsg } from './slackModel'
+import { config } from '../config/config'
 
-const webhookURL = process.env.SLACK_WEBHOOK_URL
+const webhookURL = config.get('slack.webhookURL')
 const webhook = new IncomingWebhook(webhookURL)
 
 export async function sendToSlack(title: string, imdbID: string, imageURL: string) {
