@@ -1,11 +1,17 @@
 import { IncomingWebhook } from '@slack/webhook'
 import { IslackMsg } from './slackModel'
 import { config } from '../config/config'
+import { isDevEnvironment } from '../utils/utils'
 
-const webhookURL = config.get('slack.webhookURL')
+const webhookURL: string = config.get('slack.webhookURL')
 const webhook = new IncomingWebhook(webhookURL)
 
 export async function sendToSlack(title: string, imdbID: string, imageURL: string) {
+  if (isDevEnvironment()) {
+    console.log(`Development Environment! Msg to slack surpressed.`)
+    return
+  }
+
   const msg: IslackMsg = {
     attachments: [
       {
