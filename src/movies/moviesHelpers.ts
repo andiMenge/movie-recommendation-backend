@@ -1,7 +1,10 @@
 import { MovieSchema, MovieModel } from './moviesModels'
 import * as mongoose from 'mongoose'
+import { Request, Response, NextFunction } from 'express'
+import { config } from '../config/config'
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
+const apisecret: string = config.get('secrets.authKey')
 
 export async function isDuplicate(id: string): Promise<boolean> {
   try {
@@ -20,4 +23,12 @@ export async function isDuplicate(id: string): Promise<boolean> {
 export async function getImdbIDfromImdbURL(url: String) {
   const imdbID = url.substring(27, 36)
   return imdbID
+}
+
+export function validateAPIKey(req: Request, res: Response, next: NextFunction): void {
+  if (req.query.key === apisecret) {
+    next()
+  } else {
+    res.sendStatus(401)
+  }
 }

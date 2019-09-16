@@ -25,6 +25,15 @@ export const config = convict({
       sensitive: true,
     },
   },
+  secrets: {
+    authKey: {
+      doc: 'Access token for this API',
+      format: 'not-empty-string',
+      default: '',
+      env: 'AUTH_KEY',
+      sensitive: true,
+    },
+  },
   db: {
     host: {
       doc: 'Database host name/IP',

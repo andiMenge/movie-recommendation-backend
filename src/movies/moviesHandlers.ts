@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { MovieResponse, InputData, MovieModel } from './moviesModels'
 import { saveMovie, readMovies, updateMovie } from './movies'
 import { getImdbIDfromImdbURL } from './moviesHelpers'
+import { validateAPIKey } from './moviesHelpers'
 
 const router = Router()
 
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', validateAPIKey, async (req, res) => {
   try {
     const inputData: InputData = req.body
     const imdbURL = inputData.url
@@ -31,7 +32,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.put('/:id?', async (req, res) => {
+router.put('/:id?', validateAPIKey, async (req, res) => {
   try {
     const newMovie: MovieModel = req.body
     const updatedMovie = await updateMovie(req.params.id, newMovie)
