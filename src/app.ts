@@ -3,27 +3,9 @@ import { Request, Response, NextFunction } from 'express'
 import * as bodyParser from 'body-parser'
 import cors from 'cors'
 import morgan from 'morgan'
-import mongoose from 'mongoose'
-import { createInitialFeed } from './feed/feed'
 import { router } from './router'
-import { config } from './config/config'
 
-const mongoHost = config.get('db.host')
-const mongoUrl: string = `mongodb://${mongoHost}/movie-favs`
 export const app = express()
-
-function init() {
-  try {
-    mongoose.set('useFindAndModify', false)
-    mongoose.connect(mongoUrl, { useNewUrlParser: true })
-    createInitialFeed()
-  } catch (error) {
-    console.error(error.message)
-    throw new Error('App initilization failed')
-  }
-}
-
-init()
 
 // Custom error handler
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction) {
