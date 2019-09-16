@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   service:
-    image: andimenge/movie-favs:7ad583678a77fe51a44289174b8f800770a4b7d2
+    image: andimenge/movie-favs:637c337f52b7fcc9e8ac8095cd2fd90ec6ec5dfe
     init: true
     scale: 1
     labels:
@@ -16,6 +16,7 @@ services:
       - TMDB_API_KEY=${TMDB_API_KEY}
       - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
       - TZ=Europe/Berlin
+      - NODE_ENV=production
     cpu_count: 1
     mem_reservation: 100m
     mem_limit: 1500000000
