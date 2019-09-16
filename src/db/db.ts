@@ -5,6 +5,7 @@ const mongoHost = config.get('db.host')
 const mongoUrl: string = `mongodb://${mongoHost}/movie-favs`
 
 export async function dbInit() {
+  mongoose.set('useUnifiedTopology', true)
   mongoose.set('useFindAndModify', false)
   try {
     await mongoose.connect(mongoUrl, { useNewUrlParser: true })
