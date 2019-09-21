@@ -1,9 +1,5 @@
-import { config } from '../config/config'
-
-const environment: string = config.get('node.nodeEnv')
-
-export function isDevEnvironment(): boolean {
-  if (environment === 'development') {
+export function isDevEnvironment(env: string): boolean {
+  if (env === 'development') {
     return true
   }
   return false

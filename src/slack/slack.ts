@@ -7,7 +7,7 @@ const webhookURL: string = config.get('slack.webhookURL')
 const webhook = new IncomingWebhook(webhookURL)
 
 export async function sendToSlack(title: string, imdbID: string, imageURL: string) {
-  if (isDevEnvironment()) {
+  if (isDevEnvironment(config.get('node.nodeEnv'))) {
     console.log(`Development Environment! Msg to slack surpressed.`)
     return
   }
