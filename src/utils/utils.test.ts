@@ -1,4 +1,4 @@
-const { isDevEnvironment } = require('./utils')
+import { isDevEnvironment } from './utils'
 
 test('dev environment should be true', () => {
   expect(isDevEnvironment('development')).toBeTruthy()
