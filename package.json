@@ -7,7 +7,7 @@
   "description": "Movie Recommendation Service",
   "main": "dist/server.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "build": "tsc",
     "dev": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/server.ts",
     "start": "node ./dist/server.js"
