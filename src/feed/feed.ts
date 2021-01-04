@@ -11,8 +11,6 @@ export const feed = new Feed({
   image: 'https://movies.andimenge.de/favicon.ico',
   favicon: 'https://movies.andimenge.de/favicon.ico',
   copyright: 'All rights reserved 2019, Movie Favs',
-  updated: new Date(2013, 6, 14), // optional, default = today
-  generator: 'Feed for Node.js', // optional, default = 'Feed for Node.js'
   feedLinks: {
     atom: 'https://movies.andimenge.de/api/feed',
   },
@@ -29,7 +27,7 @@ export function addToFeed(title: string, imdbID: string, imageURL: string) {
     link: `https://www.imdb.com/title/${imdbID}`,
     description: title,
     content: title,
-    date: new Date(2013, 6, 14),
+    date: new Date(),
     image: imageURL,
   }
   feed.addItem(item)
