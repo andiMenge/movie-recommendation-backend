@@ -19,7 +19,7 @@ services:
       - NODE_ENV=production
     cpu_count: 1
     mem_reservation: 100m
-    mem_limit: 1500000000
+    mem_limit: '1500000000'
     restart: always
     depends_on:
       - mongodb
@@ -40,7 +40,26 @@ services:
       - traefik.enable=false
     restart: always
     mem_reservation: 500m
-    mem_limit: 20000000000
+    mem_limit: '20000000000'
+
+  objectStorage:
+    image: minio/minio
+    command: ['server', '/data']
+    environment:
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    volumes:
+      - /home/docker/data/movie-favs/minio:/data/
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.backend=movie-favs-objectStorage' # backend name
+      - 'traefik.port=9000'
+      - 'traefik.frontend.rule=Host:movies.andimenge.de;Path:/data'
+      - 'traefik.docker.network=loadbalancer'
+    restart: always
+    mem_reservation: 500m
+    mem_limit: '20000000000'
+
 networks:
   loadbalancer:
     external: true
