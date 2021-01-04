@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:15-alpine
 RUN mkdir -p /app/src
 COPY package.json tsconfig.json /app/
 COPY src /app/src/
