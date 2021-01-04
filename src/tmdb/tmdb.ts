@@ -19,12 +19,17 @@ export default class Tmdb {
     const url = `${this.tmdbUrl}${this.tmdbEndpoint}/${imdbID}?api_key=${this.tmdbApiKey}&language=en-US&external_source=imdb_id`
     try {
       const resp = await needle('get', url)
+      if (resp.statusCode != 200) {
+        console.error(resp.body)
+        throw new Error('get movie info from tmdb failed')
+      }
+
       const tmdbResponse: tmdbFindMovieResponse = resp.body
       const tmdbMovieDetails: Movieresult = tmdbResponse.movie_results[0]
       return tmdbMovieDetails
     } catch (error) {
-      console.log(error.message)
-      throw new Error('get movie info from tmdb failed')
+      console.error(error.message)
+      throw error
     }
   }
 
