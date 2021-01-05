@@ -42,7 +42,7 @@ services:
     mem_reservation: 500m
     mem_limit: '20000000000'
 
-  objectStorage:
+  s3:
     image: minio/minio
     command: ['server', '/data']
     environment:
@@ -52,13 +52,17 @@ services:
       - /home/docker/data/movie-favs/minio:/data/
     labels:
       - 'traefik.enable=true'
-      - 'traefik.backend=movie-favs-objectStorage' # backend name
+      - 'traefik.backend=movie-favs-s3' # backend name
       - 'traefik.port=9000'
-      - 'traefik.frontend.rule=Host:movies.andimenge.de;Path:/data'
+      - 'traefik.frontend.rule=Host:data.andimenge.de'
+      - 'traefik.frontend.passHostHeader=true'
       - 'traefik.docker.network=loadbalancer'
     restart: always
     mem_reservation: 500m
     mem_limit: '20000000000'
+    networks:
+      - loadbalancer
+      - default
 
 networks:
   loadbalancer:
