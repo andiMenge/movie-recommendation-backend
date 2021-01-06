@@ -5,6 +5,8 @@ import Tmdb from '../tmdb/tmdb'
 import { isDuplicate } from './moviesHelpers'
 import { sendToSlack } from '../slack/slack'
 import { addToFeed } from '../feed/feed'
+import { S3_BASE_URL, uploadToS3 } from '../s3/s3'
+import { storeTmpImage } from './moviesHelpers'
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
 const tmdb = new Tmdb()
@@ -18,21 +20,22 @@ export async function saveMovie(id: string): Promise<MovieModel> {
       imdb_id: id,
       release_date: movieInfo.release_date,
       is_highlight: false,
-      image_url: `${tmdb.tmdbThumbnailURL}${movieInfo.poster_path}`,
       genres: genres,
     })
 
-    const duplicate = await isDuplicate(id)
-    if (!duplicate) {
-      newMovie.save()
-      await notify(newMovie)
-      return newMovie
-    } else {
-      console.log('Movie is duplicate, not saving')
+    if (await isDuplicate(id)) {
+      console.log(`Movie '${newMovie.original_title}' is duplicate, not saving`)
+      return
     }
+
+    const thumbnailName = await storeThumbnail(movieInfo, tmdb.tmdbThumbnailURL)
+    newMovie.image_url = `${S3_BASE_URL}${thumbnailName}`
+    newMovie.save()
+    await notify(newMovie)
+    return newMovie
   } catch (error) {
     console.log(error.message)
-    throw new Error('saving movie failed')
+    throw error
   }
 }
 
@@ -70,4 +73,11 @@ export async function notify(movie: MovieModel) {
     console.error(error.message)
     throw new Error('Add movie to feed failed')
   }
+}
+
+async function storeThumbnail(movieInfo: Movieresult, thumbnailBaseUrl: string): Promise<string> {
+  const filename = `${movieInfo.title.toLowerCase().replaceAll(/\s/g, '')}-${movieInfo.id}.jpg`
+  const tmpImage = await storeTmpImage(`${thumbnailBaseUrl}${movieInfo.poster_path}`)
+  await uploadToS3(tmpImage, filename)
+  return filename
 }

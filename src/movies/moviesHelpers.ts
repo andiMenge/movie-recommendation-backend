@@ -2,7 +2,8 @@ import { MovieSchema, MovieModel } from './moviesModels'
 import * as mongoose from 'mongoose'
 import { Request, Response, NextFunction } from 'express'
 import { config } from '../config/config'
-import url from 'url'
+import fs from 'fs'
+import fetch from 'node-fetch'
 
 const movie = mongoose.model<MovieModel>('Movie', MovieSchema)
 const apisecret: string = config.get('secrets.authKey')
@@ -43,5 +44,21 @@ export function validateAPIKey(req: Request, res: Response, next: NextFunction):
     next()
   } else {
     res.sendStatus(401)
+  }
+}
+
+export async function storeTmpImage(url: string): Promise<string | Buffer> {
+  try {
+    const tmpFileName = `${Math.random()
+      .toString(36)
+      .substring(7)}.jpg`
+
+    const writeStream = fs.createWriteStream(tmpFileName)
+    const resp = await fetch(url)
+    resp.body.pipe(writeStream)
+    return writeStream.path
+  } catch (error) {
+    console.error(error)
+    throw error
   }
 }

@@ -43,6 +43,22 @@ export const config = convict({
       sensitive: true,
     },
   },
+  s3: {
+    accessKey: {
+      doc: 'S3 Access key',
+      format: 'not-empty-string',
+      default: '',
+      env: 'MINIO_ACCESS_KEY',
+      sensitive: true,
+    },
+    secretKey: {
+      doc: 'S3 secret',
+      format: 'not-empty-string',
+      default: '',
+      env: 'MINIO_SECRET_KEY',
+      sensitive: true,
+    },
+  },
   slack: {
     webhookURL: {
       doc: 'URL for slack channel to post to',

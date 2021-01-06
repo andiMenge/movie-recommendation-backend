@@ -1,7 +1,7 @@
 version: '2.3'
 services:
   service:
-    image: andimenge/movie-favs:b8659ec813b0352e6a469657f88faef78f9f2e5f
+    image: andimenge/movie-favs:525f263ec4e5949499911c415024cbecccb1fb71
     init: true
     scale: 1
     labels:
@@ -14,6 +14,8 @@ services:
       - MONGO_DB_HOST=mongodb
       - AUTH_KEY=${AUTH_KEY}
       - TMDB_API_KEY=${TMDB_API_KEY}
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
       - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
       - TZ=Europe/Berlin
       - NODE_ENV=production
