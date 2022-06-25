@@ -28,7 +28,7 @@
     "mongoose": "^5.11.9",
     "morgan": "^1.9.1",
     "needle": "^2.2.4",
-    "node-fetch": "2.6.1"
+    "node-fetch": "2.6.7"
   },
   "devDependencies": {
     "@slack/webhook": "^5.0.1",
